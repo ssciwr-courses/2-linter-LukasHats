@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 
 map_expressions = {
     "KAT1MoralisierendesSegment": "KAT1-Moralisierendes Segment",
@@ -11,6 +13,7 @@ map_expressions = {
     "KAT5Ausformulierung": "KAT5-Forderung implizit",
     "Kommentar": "KOMMENTAR",
 }
+
 
 def validate_data_dict(data_dict):
     if not data_dict:
@@ -62,9 +65,9 @@ class AnalyseOccurrence:
             file_names = [file_names]
         return file_names
 
-    def _initialize_dict(self) -> defaultdict:
+    def _initialize_dict(self) -> dict:
         """Helper method to initialize dict."""
-        return defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+        return dict(lambda: dict(lambda: dict(int)))
 
     def _initialize_df(self):
         """Helper method to initialize data frame."""
@@ -141,7 +144,7 @@ class AnalyseOccurrence:
                     # span_dict[main_cat_key][sub_cat_key] =
                     # find the text for each span
                     span_annotated_text = [
-                        span_text[span["begin"] : span["end"]]
+                        span_text[span["begin"]: span["end"]]
                         for span in span_dict[main_cat_key][sub_cat_key]
                     ]
                     # clean the spans from #
@@ -179,6 +182,3 @@ class AnalyseOccurrence:
     def map_categories(self):
         self.df = self.df.rename(map_expressions)
         self._clean_df()
-
-
-
